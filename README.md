@@ -39,9 +39,9 @@ El objetivo es reducir tiempos de espera, mejorar la organización, facilitar el
 
 ---
 
-## Características Clave (MVP)
+## Características Clave
 
-La primera versión (MVP - Producto Mínimo Viable) se centrará en las siguientes funcionalidades esenciales:
+La primera versión se centrará en las siguientes funcionalidades esenciales:
 
 **Funcionalidades para Pacientes:**
 *   Registro y Autenticación segura.
