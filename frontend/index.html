@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIVIC - Clínica VIH</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Podrías enlazar una librería de iconos SVG aquí si usas una, o definirlos inline -->
+</head>
+<body>
+    <header>
+        <h1>SIVIC</h1>
+        <!-- Aquí podría ir un menú de navegación en futuras iteraciones -->
+    </header>
+
+    <main>
+        <!-- Contenedor principal para las vistas que cambiarán con JS -->
+        <div id="app-view">
+            <!-- Vista de Bienvenida / Test API (Iteración 0) -->
+            <section id="welcome-section">
+                <h2>Bienvenido a SIVIC</h2>
+                <p>Sistema Integral de Vigilancia en Inmunodeficiencias Clínicas.</p>
+                <div id="test-api" class="mt-1">
+                    <h3>Probar Conexión con Backend</h3>
+                    <button id="testApiButton">
+                        <!-- <svg class="icon">...</svg> --> Test API
+                    </button>
+                    <p id="apiResponse"></p>
+                </div>
+            </section>
+
+            <!-- Vista de Login (se mostrará/ocultará con JS) -->
+            <section id="login-section" style="display: none;">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <div>
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" name="password" required>
+                    </div>
+                    <button type="submit">Acceder</button>
+                </form>
+                <p class="text-center mt-1">¿No tienes cuenta? <a href="#" id="show-register-link">Regístrate aquí</a></p>
+            </section>
+
+            <!-- Vista de Registro (se mostrará/ocultará con JS) -->
+            <section id="register-section" style="display: none;">
+                <h2>Crear Cuenta</h2>
+                <form id="register-form">
+                    <div>
+                        <label for="register-nombre">Nombre Completo</label>
+                        <input type="text" id="register-nombre" name="nombre_completo" required>
+                    </div>
+                    <div>
+                        <label for="register-email">Correo Electrónico</label>
+                        <input type="email" id="register-email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="register-telefono">Teléfono</label>
+                        <input type="tel" id="register-telefono" name="telefono">
+                    </div>
+                    <div>
+                        <label for="register-password">Contraseña</label>
+                        <input type="password" id="register-password" name="password" required>
+                    </div>
+                    <div>
+                        <label for="register-role">Soy:</label>
+                        <select id="register-role" name="role">
+                            <option value="Paciente">Paciente</option>
+                            <option value="Medico">Médico</option>
+                        </select>
+                    </div>
+                    <div id="cedula-profesional-container" style="display: none;">
+                        <label for="register-cedula">Cédula Profesional (Médicos)</label>
+                        <input type="text" id="register-cedula" name="cedula_profesional">
+                    </div>
+                    <button type="submit">Registrarme</button>
+                </form>
+                <p class="text-center mt-1">¿Ya tienes cuenta? <a href="#" id="show-login-link">Inicia sesión</a></p>
+            </section>
+
+            <!-- Aquí irán las vistas de Paciente, Médico y Admin en futuras iteraciones -->
+
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 SIVIC. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
