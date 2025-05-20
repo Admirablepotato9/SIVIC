@@ -1,22 +1,18 @@
 // backend/src/config/supabaseClient.js
 import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv'; // Ya no es necesario importar dotenv aquí
 
-// Asegúrate que la ruta al .env sea correcta desde la raíz del proyecto backend
-// Si .env está en la raíz de 'backend/', entonces dotenv.config() sin path es suficiente si app.js lo carga primero.
-// O puedes especificar la ruta como:
-// dotenv.config({ path: './.env' }); // Si se ejecuta desde la raíz de 'backend'
-// O si este archivo se llama desde una subcarpeta y el .env está dos niveles arriba:
-dotenv.config({ path: '../../.env' }); // Ajusta esta ruta si es necesario
+// Ya NO necesitamos llamar a dotenv.config() aquí si app.js lo hace primero.
+// dotenv.config({ path: '../../.env' }); 
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-    console.error("Error: Variables de entorno de Supabase no encontradas.");
+    console.error("Error: Variables de entorno de Supabase no encontradas en supabaseClient.js.");
     console.error("SUPABASE_URL:", supabaseUrl);
-    console.error("SUPABASE_ANON_KEY:", !!supabaseAnonKey); // Solo para ver si está definida o no
-    throw new Error("Supabase URL o Anon Key is missing. Check your .env file and its path in supabaseClient.js.");
+    console.error("SUPABASE_ANON_KEY está definida:", !!supabaseAnonKey); 
+    throw new Error("Supabase URL o Anon Key is missing. Esto usualmente significa que dotenv.config() no se ejecutó correctamente en tu archivo principal (app.js) antes de que este módulo fuera importado.");
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
