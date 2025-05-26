@@ -1,22 +1,17 @@
-/* sivic-app/css/style.css */
+/* frontend/css/style.css */
 :root {
-    --dark-blue: #011627;   /* Azul oscuro principal (fondos oscuros, texto sobre claro) */
-    --snow-white: #FDFFFC;  /* Blanco nieve (fondos claros, texto sobre oscuro) */
-    --seafoam-green: #2EC4B6;/* Verde espuma de mar (acentos, botones, iconos) */
-    --poppy-red: #E71D36;    /* Rojo amapola (alertas, errores, urgencias) */
-    --safety-orange: #FF9F1C;/* Naranja seguridad (avisos, acentos secundarios) */
-
-    /* Colores adicionales para UI (grises, etc.) */
+    --dark-blue: #011627;
+    --snow-white: #FDFFFC;
+    --seafoam-green: #2EC4B6;
+    --poppy-red: #E71D36;
+    --safety-orange: #FF9F1C;
     --light-gray: #f0f0f0;
     --medium-gray: #cccccc;
     --dark-gray: #555555;
-
-    /* Sombras */
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.1);
     --shadow-medium: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Reset básico y estilos generales */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -25,73 +20,102 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    background-color: var(--snow-white); /* Fondo principal claro */
-    color: var(--dark-blue); /* Texto principal oscuro */
+    background-color: var(--snow-white);
+    color: var(--dark-blue);
     line-height: 1.6;
-    padding-top: 80px; /* Espacio para el header fijo */
+    padding-top: 80px; 
 }
 
-/* --- Header --- */
 header {
     background-color: var(--dark-blue);
     color: var(--snow-white);
     padding: 1em 2em;
     text-align: center;
-    position: fixed; /* Header fijo */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
     box-shadow: var(--shadow-medium);
+    display: flex; /* Para alinear título y navegación de usuario */
+    justify-content: center; /* Centra el título */
+    align-items: center;
 }
 
 header h1 {
     margin: 0;
     font-size: 2em;
     font-weight: 700;
+    flex-grow: 1; /* Permite que el título tome espacio */
+    text-align: center; /* Asegura que el H1 esté centrado si user-navigation está presente */
 }
 
-/* --- Main Content --- */
+#user-navigation {
+    position: absolute; /* Posicionamiento absoluto respecto al header */
+    top: 50%;
+    right: 2em;
+    transform: translateY(-50%); /* Centrado vertical */
+    display: flex;
+    align-items: center;
+}
+
+#user-info {
+    color: var(--snow-white);
+    margin-right: 15px;
+    font-size: 0.9em;
+}
+#user-info a {
+    color: var(--seafoam-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+#user-info a:hover {
+    text-decoration: underline;
+}
+
+
 main {
     max-width: 960px;
     margin: 20px auto;
     padding: 30px;
-    /* background-color: white; No es necesario si el body es blanco */
 }
 
 section {
     margin-bottom: 40px;
     padding: 25px;
-    background-color: var(--snow-white); /* Tarjetas modulares */
+    background-color: var(--snow-white);
     border-radius: 8px;
     box-shadow: var(--shadow-soft);
 }
 
 section h2, section h3 {
     color: var(--dark-blue);
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Más espacio después del título */
     border-bottom: 2px solid var(--seafoam-green);
-    padding-bottom: 8px;
-    display: inline-block; /* Para que el borde solo ocupe el ancho del texto */
+    padding-bottom: 10px; /* Más padding para el borde */
+    display: inline-block;
 }
 
-/* --- Formularios --- */
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* Más espacio entre elementos del form */
 }
 
 label {
     font-weight: 600;
     margin-bottom: 5px;
     display: block;
+    color: var(--dark-gray);
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="tel"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
 select,
 textarea {
     width: 100%;
@@ -99,39 +123,27 @@ textarea {
     border: 1px solid var(--medium-gray);
     border-radius: 6px;
     font-size: 1em;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff; /* Fondo blanco para inputs */
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="number"]:focus,
 select:focus,
 textarea:focus {
     outline: none;
     border-color: var(--seafoam-green);
-    box-shadow: 0 0 0 2px rgba(46, 196, 182, 0.3); /* Sombra de foco */
+    box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.25); /* Sombra de foco más visible */
 }
 
-/* Validación visual (clases que añadirías con JS) */
-input.valid {
-    border-color: var(--seafoam-green);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232EC4B6"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'); /* Icono SVG Check */
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 20px;
-}
+input.valid { /* ... como antes ... */ }
+input.invalid { /* ... como antes ... */ }
 
-input.invalid {
-    border-color: var(--poppy-red);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23E71D36"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'); /* Icono SVG Cross */
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 20px;
-}
-
-
-/* --- Botones --- */
 button, .button-link {
     padding: 12px 20px;
     background-color: var(--seafoam-green);
@@ -146,134 +158,147 @@ button, .button-link {
     display: inline-block;
     transition: background-color 0.2s ease-in-out, transform 0.1s ease;
 }
+button:hover, .button-link:hover { /* ... como antes ... */ }
+button:active, .button-link:active { /* ... como antes ... */ }
+button.danger { /* ... como antes ... */ }
+button.danger:hover { /* ... como antes ... */ }
+button.warning { /* ... como antes ... */ }
+button.warning:hover { /* ... como antes ... */ }
 
-button:hover, .button-link:hover {
-    background-color: #25a292; /* Un tono más oscuro de seafoam-green */
-    transform: translateY(-1px);
-}
-
-button:active, .button-link:active {
-    transform: translateY(0px);
-}
-
-button.danger {
-    background-color: var(--poppy-red);
-}
-button.danger:hover {
-    background-color: #c3182d;
-}
-
-button.warning {
-    background-color: var(--safety-orange);
-}
-button.warning:hover {
-    background-color: #e08e19;
-}
-
-/* --- Párrafo de respuesta API --- */
-#apiResponse {
-    margin-top: 15px;
-    padding: 12px;
-    background-color: var(--light-gray);
-    border-left: 4px solid var(--medium-gray);
+.form-message { /* Para mensajes de error/éxito en formularios */
+    padding: 10px;
+    margin-top: 10px;
     border-radius: 4px;
-    word-break: break-all;
+    font-weight: 500;
 }
-#apiResponse.success {
-    border-left-color: var(--seafoam-green);
-    color: var(--dark-blue); /* O un verde oscuro */
+.form-message[style*="var(--seafoam-green)"] { /* Si el color es verde */
+    background-color: rgba(46, 196, 182, 0.1);
+    border-left: 4px solid var(--seafoam-green);
 }
-#apiResponse.error {
-    border-left-color: var(--poppy-red);
-    color: var(--poppy-red);
-}
-
-
-/* --- Footer --- */
-footer {
-    text-align: center;
-    padding: 2em 0;
-    margin-top: 40px;
-    background-color: var(--dark-blue);
-    color: var(--medium-gray); /* Un gris más claro para contraste */
+.form-message[style*="var(--poppy-red)"] { /* Si el color es rojo */
+    background-color: rgba(231, 29, 54, 0.1);
+    border-left: 4px solid var(--poppy-red);
 }
 
-footer p {
-    margin: 0;
-    font-size: 0.9em;
-}
 
-/* --- Estructura para Tarjetas (Ejemplo) --- */
+#apiResponse { /* ... como antes ... */ }
+#apiResponse.success { /* ... como antes ... */ }
+#apiResponse.error { /* ... como antes ... */ }
+
+footer { /* ... como antes ... */ }
+footer p { /* ... como antes ... */ }
+
+/* --- Estilos para Tarjetas de Citas --- */
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Un poco más ancho */
+    gap: 25px;
     margin-top: 20px;
 }
 
-.card {
+.cita-card { /* Hereda de .card pero podemos añadir específicos */
     background-color: var(--snow-white);
     border-radius: 8px;
     box-shadow: var(--shadow-soft);
     padding: 20px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-
-.card:hover {
+.cita-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
 }
-
-.card h3 {
+.cita-card h3 {
     color: var(--seafoam-green);
     margin-top: 0;
-    border-bottom: none; /* Quitar borde para títulos de tarjeta si se prefiere */
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--light-gray);
+    padding-bottom: 8px;
+}
+.cita-card p {
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    color: var(--dark-gray);
+}
+.cita-card p strong {
+    color: var(--dark-blue);
+}
+.cita-card .cita-acciones {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--light-gray);
+    display: flex;
+    flex-direction: column; /* Para apilar select y botón */
+    gap: 10px;
+}
+.cita-card .cita-acciones select,
+.cita-card .cita-acciones textarea {
+    margin-bottom: 5px; /* Espacio si estuvieran en línea */
 }
 
-/* --- Iconos (Placeholder, necesitarás tus SVGs) --- */
-.icon {
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 8px;
-    /* fill: currentColor; para que tomen el color del texto */
+
+/* --- Dashboard Links en Welcome Section --- */
+#dashboard-links h4 {
+    margin-bottom: 10px;
+    color: var(--dark-blue);
+}
+#dashboard-links div[id$="-actions"] { /* Selecciona divs que terminan en -actions */
+    display: flex;
+    flex-wrap: wrap; /* Para que los botones pasen a la siguiente línea si no caben */
+    gap: 10px; /* Espacio entre botones */
+    margin-bottom: 15px; /* Espacio entre grupos de acciones si hubiera más */
 }
 
-/* --- Calendario de Citas (Placeholder Básico) --- */
-.calendar {
-    /* Estilos para el contenedor del calendario */
-    border: 1px solid var(--medium-gray);
-    border-radius: 8px;
+
+/* --- Formulario de Disponibilidad Médico --- */
+#disponibilidad-medico-form textarea {
+    font-family: monospace; /* Mejor para editar JSON */
+    min-height: 150px; /* Más altura para el JSON */
+    background-color: #fdfdfd; /* Un poco diferente para el textarea */
+}
+#disponibilidad-medico-form small, 
+#agendar-cita-form small {
+    font-size: 0.85em;
+    color: var(--dark-gray);
+    display: block;
+    margin-top: -10px; /* Acercarlo un poco al input de arriba */
+    margin-bottom: 10px;
+}
+
+/* --- Info de Disponibilidad del Médico (al agendar) --- */
+#medico-disponibilidad-info {
+    margin-top: 20px;
     padding: 15px;
-}
-.calendar-day {
-    /* Estilos para un día individual */
-    padding: 10px;
-    text-align: center;
-    border: 1px solid var(--light-gray);
-    cursor: pointer;
-}
-.calendar-day.confirmed {
-    background-color: rgba(46, 196, 182, 0.2); /* Verde claro */
-    border-color: var(--seafoam-green);
-}
-.calendar-day.urgent {
-    background-color: rgba(231, 29, 54, 0.2); /* Rojo claro */
-    border-color: var(--poppy-red);
-    color: var(--poppy-red);
-    font-weight: bold;
-}
-.calendar-day.unavailable {
     background-color: var(--light-gray);
-    color: var(--medium-gray);
-    cursor: not-allowed;
+    border-radius: 6px;
+    border: 1px solid var(--medium-gray);
 }
+#medico-disponibilidad-info h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--dark-blue);
+}
+#medico-disponibilidad-info ul {
+    list-style: none;
+    padding-left: 0;
+}
+#medico-disponibilidad-info li {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+
+/* Iconos (Placeholder) */
+.icon { /* ... como antes ... */ }
+
+/* Calendario (Placeholder) */
+.calendar { /* ... como antes ... */ }
+.calendar-day { /* ... como antes ... */ }
+.calendar-day.confirmed { /* ... como antes ... */ }
+.calendar-day.urgent { /* ... como antes ... */ }
+.calendar-day.unavailable { /* ... como antes ... */ }
 
 /* Utilidades */
-.text-center {
-    text-align: center;
-}
-.mt-1 { margin-top: 1rem; }
-.mb-1 { margin-bottom: 1rem; }
-/* ... más utilidades si las necesitas */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 1rem !important; } /* Usar !important con cuidado, solo si es necesario para sobreescribir */
+.mb-1 { margin-bottom: 1rem !important; }

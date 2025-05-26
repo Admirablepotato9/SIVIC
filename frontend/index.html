@@ -5,85 +5,248 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIVIC - Clínica VIH</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- Podrías enlazar una librería de iconos SVG aquí si usas una, o definirlos inline -->
 </head>
 <body>
     <header>
         <h1>SIVIC</h1>
-        <!-- Aquí podría ir un menú de navegación en futuras iteraciones -->
+        <div id="user-navigation">
+            <div id="user-info" style="display:none;">
+            </div>
+            <button id="logout-button" style="display:none;" class="danger">Cerrar Sesión</button>
+        </div>
     </header>
 
     <main>
-        <!-- Contenedor principal para las vistas que cambiarán con JS -->
         <div id="app-view">
-            <!-- Vista de Bienvenida / Test API (Iteración 0) -->
-            <section id="welcome-section">
+
+            <section id="welcome-section" style="display: none;">
                 <h2>Bienvenido a SIVIC</h2>
                 <p>Sistema Integral de Vigilancia en Inmunodeficiencias Clínicas.</p>
+                <p id="welcome-user-message" style="font-weight: bold;"></p>
                 <div id="test-api" class="mt-1">
                     <h3>Probar Conexión con Backend</h3>
-                    <button id="testApiButton">
-                        <!-- <svg class="icon">...</svg> --> Test API
-                    </button>
+                    <button id="testApiButton">Test API</button>
                     <p id="apiResponse"></p>
                 </div>
+                <div id="dashboard-links" style="display: none;" class="mt-1">
+                    <h4>Acciones Rápidas:</h4>
+                    <div id="paciente-actions" style="display:none;">
+                        <button id="show-agendar-cita-view-btn" class="button-link">Agendar Nueva Cita</button>
+                        <button id="show-mis-citas-paciente-view-btn" class="button-link">Ver Mis Citas</button>
+                        <button id="show-registrar-sintomas-view-btn" class="button-link">Registrar Síntomas</button>
+                    </div>
+                    <div id="medico-actions" style="display:none;">
+                        <button id="show-mi-agenda-medico-view-btn" class="button-link">Ver Mi Agenda</button>
+                        <button id="show-disponibilidad-medico-view-btn" class="button-link">Gestionar Disponibilidad</button>
+                    </div>
+                    <div id="admin-actions" style="display:none;">
+                        <button id="show-admin-panel-view-btn" class="button-link">Panel de Administración</button>
+                    </div>
+                </div>
             </section>
-
-            <!-- Vista de Login (se mostrará/ocultará con JS) -->
+            
             <section id="login-section" style="display: none;">
                 <h2>Iniciar Sesión</h2>
-                <form id="login-form">
+                <form id="login-form" autocomplete="on">
                     <div>
                         <label for="login-email">Correo Electrónico</label>
-                        <input type="email" id="login-email" name="email" required>
+                        <input type="email" id="login-email" name="email" required placeholder="tu.correo@example.com" autocomplete="email">
                     </div>
                     <div>
                         <label for="login-password">Contraseña</label>
-                        <input type="password" id="login-password" name="password" required>
+                        <input type="password" id="login-password" name="password" required placeholder="********" autocomplete="current-password">
                     </div>
                     <button type="submit">Acceder</button>
                 </form>
                 <p class="text-center mt-1">¿No tienes cuenta? <a href="#" id="show-register-link">Regístrate aquí</a></p>
             </section>
 
-            <!-- Vista de Registro (se mostrará/ocultará con JS) -->
             <section id="register-section" style="display: none;">
                 <h2>Crear Cuenta</h2>
-                <form id="register-form">
+                <form id="register-form" autocomplete="on">
                     <div>
                         <label for="register-nombre">Nombre Completo</label>
-                        <input type="text" id="register-nombre" name="nombre_completo" required>
+                        <input type="text" id="register-nombre" name="nombre_completo" required placeholder="Tu Nombre Completo" autocomplete="name">
                     </div>
                     <div>
                         <label for="register-email">Correo Electrónico</label>
-                        <input type="email" id="register-email" name="email" required>
+                        <input type="email" id="register-email" name="email" required placeholder="tu.correo@example.com" autocomplete="email">
                     </div>
                     <div>
-                        <label for="register-telefono">Teléfono</label>
-                        <input type="tel" id="register-telefono" name="telefono">
+                        <label for="register-telefono">Teléfono (Opcional)</label>
+                        <input type="tel" id="register-telefono" name="telefono" placeholder="Ej: 5512345678" autocomplete="tel">
                     </div>
                     <div>
                         <label for="register-password">Contraseña</label>
-                        <input type="password" id="register-password" name="password" required>
+                        <input type="password" id="register-password" name="password" required placeholder="Mínimo 6 caracteres" autocomplete="new-password">
                     </div>
                     <div>
                         <label for="register-role">Soy:</label>
-                        <select id="register-role" name="role">
-                            <option value="Paciente">Paciente</option>
+                        <select id="register-role" name="role" autocomplete="off">
+                            <option value="Paciente" selected>Paciente</option>
                             <option value="Medico">Médico</option>
                         </select>
                     </div>
                     <div id="cedula-profesional-container" style="display: none;">
-                        <label for="register-cedula">Cédula Profesional (Médicos)</label>
-                        <input type="text" id="register-cedula" name="cedula_profesional">
+                        <label for="register-cedula">Cédula Profesional (Requerido para Médicos)</label>
+                        <input type="text" id="register-cedula" name="cedula_profesional" placeholder="Tu Cédula Profesional" autocomplete="off">
                     </div>
                     <button type="submit">Registrarme</button>
                 </form>
                 <p class="text-center mt-1">¿Ya tienes cuenta? <a href="#" id="show-login-link">Inicia sesión</a></p>
             </section>
 
-            <!-- Aquí irán las vistas de Paciente, Médico y Admin en futuras iteraciones -->
+            <section id="profile-section" style="display: none;">
+                <h2>Mi Perfil</h2>
+                <form id="profile-form" autocomplete="on">
+                    <div>
+                        <label for="profile-nombre">Nombre Completo</label>
+                        <input type="text" id="profile-nombre" name="nombre_completo" required autocomplete="name">
+                    </div>
+                    <div>
+                        <label for="profile-email">Correo Electrónico (No editable)</label>
+                        <input type="email" id="profile-email" name="email" readonly disabled autocomplete="email">
+                    </div>
+                    <div>
+                        <label for="profile-telefono">Teléfono</label>
+                        <input type="tel" id="profile-telefono" name="telefono" autocomplete="tel">
+                    </div>
+                    <div>
+                        <label for="profile-role">Rol (No editable)</label>
+                        <input type="text" id="profile-role" name="role" readonly disabled autocomplete="off">
+                    </div>
+                    <div id="profile-cedula-container" style="display:none;">
+                         <label for="profile-cedula">Cédula Profesional (No editable)</label>
+                        <input type="text" id="profile-cedula" name="cedula_profesional" readonly disabled autocomplete="off">
+                    </div>
+                     <div id="profile-estado-validacion-container" style="display:none;">
+                         <label for="profile-estado-validacion">Estado Validación (Médicos)</label>
+                        <input type="text" id="profile-estado-validacion" name="estado_validacion" readonly disabled autocomplete="off">
+                    </div>
+                    <button type="submit">Actualizar Perfil</button>
+                </form>
+                <button id="back-to-welcome-btn" class="button-link mt-1">Volver al Inicio</button>
+            </section>
+            
+            <section id="agendar-cita-section" style="display: none;">
+                <h2>Agendar Nueva Cita</h2>
+                <form id="agendar-cita-form" autocomplete="off">
+                    <div>
+                        <label for="select-medico">Seleccionar Médico:</label>
+                        <select id="select-medico" name="medico_id" required>
+                            <option value="">Cargando médicos...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="fecha-cita">Fecha de la Cita:</label>
+                        <input type="date" id="fecha-cita" name="fecha_cita" required autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="hora-cita">Hora de la Cita:</label>
+                        <input type="time" id="hora-cita" name="hora_cita" required autocomplete="off">
+                        <small>Consulte la disponibilidad del médico.</small>
+                    </div>
+                    <button type="submit">Confirmar Cita</button>
+                </form>
+                <div id="medico-disponibilidad-info">
+                </div>
+                 <button id="back-to-welcome-from-agendar-btn" class="button-link mt-1">Volver</button>
+            </section>
 
+            <section id="mis-citas-paciente-section" style="display: none;">
+                <h2>Mis Citas Programadas</h2>
+                <div id="lista-citas-paciente" class="card-container">
+                    <p>Cargando tus citas...</p>
+                </div>
+                 <button id="back-to-welcome-from-miscitas-btn" class="button-link mt-1">Volver</button>
+            </section>
+
+            <!-- SECCIÓN DE DISPONIBILIDAD MODIFICADA -->
+            <section id="disponibilidad-medico-section" style="display: none;">
+                <h2>Gestionar Mi Disponibilidad</h2>
+                <form id="disponibilidad-medico-form" autocomplete="off">
+                    <div>
+                        <label for="limite-citas-diarias">Límite de Citas por Día:</label>
+                        <input type="number" id="limite-citas-diarias" name="limite_citas_diarias" min="0" value="10">
+                    </div>
+                    
+                    <h4>Horarios Semanales:</h4>
+                    <div id="horarios-semanales-container">
+                        <!-- Lunes -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-lunes" name="dia_lunes" value="lunes">
+                            <label for="check-lunes" class="dia-label">Lunes:</label>
+                            <div class="rangos-horarios" id="rangos-lunes" style="display:none;">
+                                <!-- Los inputs de tiempo se añadirán aquí con JS -->
+                            </div>
+                        </div>
+                        <!-- Martes -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-martes" name="dia_martes" value="martes">
+                            <label for="check-martes" class="dia-label">Martes:</label>
+                            <div class="rangos-horarios" id="rangos-martes" style="display:none;">
+                            </div>
+                        </div>
+                        <!-- Miércoles -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-miercoles" name="dia_miercoles" value="miercoles">
+                            <label for="check-miercoles" class="dia-label">Miércoles:</label>
+                            <div class="rangos-horarios" id="rangos-miercoles" style="display:none;">
+                            </div>
+                        </div>
+                        <!-- Jueves -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-jueves" name="dia_jueves" value="jueves">
+                            <label for="check-jueves" class="dia-label">Jueves:</label>
+                            <div class="rangos-horarios" id="rangos-jueves" style="display:none;">
+                            </div>
+                        </div>
+                        <!-- Viernes -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-viernes" name="dia_viernes" value="viernes">
+                            <label for="check-viernes" class="dia-label">Viernes:</label>
+                            <div class="rangos-horarios" id="rangos-viernes" style="display:none;">
+                            </div>
+                        </div>
+                        <!-- Sábado -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-sabado" name="dia_sabado" value="sabado">
+                            <label for="check-sabado" class="dia-label">Sábado:</label>
+                            <div class="rangos-horarios" id="rangos-sabado" style="display:none;">
+                            </div>
+                        </div>
+                        <!-- Domingo -->
+                        <div class="dia-disponibilidad-container">
+                            <input type="checkbox" id="check-domingo" name="dia_domingo" value="domingo">
+                            <label for="check-domingo" class="dia-label">Domingo:</label>
+                            <div class="rangos-horarios" id="rangos-domingo" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">Actualizar Disponibilidad</button>
+                </form>
+                 <button id="back-to-welcome-from-dispo-btn" class="button-link mt-1">Volver</button>
+            </section>
+            <!-- FIN DE SECCIÓN DE DISPONIBILIDAD MODIFICADA -->
+
+
+            <section id="mi-agenda-medico-section" style="display: none;">
+                <h2>Mi Agenda</h2>
+                <div id="lista-citas-medico" class="card-container">
+                    <p>Cargando tu agenda...</p>
+                </div>
+                 <button id="back-to-welcome-from-agenda-btn" class="button-link mt-1">Volver</button>
+            </section>
+
+            <section id="admin-panel-section" style="display: none;">
+                <h2>Panel de Administración</h2>
+                <button id="back-to-welcome-from-admin-btn" class="button-link mt-1">Volver</button>
+            </section>
+            
+            <section id="registrar-sintomas-section" style="display:none;">
+                <h2>Registrar Mis Síntomas</h2>
+                <button id="back-to-welcome-from-sintomas-btn" class="button-link mt-1">Volver</button>
+            </section>
         </div>
     </main>
 
