@@ -1,55 +1,58 @@
 // backend/app.js
 import dotenv from 'dotenv';
-dotenv.config(); // Carga variables de .env para desarrollo local
+dotenv.config(); 
 
 import express from 'express';
 import cors from 'cors';
-// 'path' y 'fileURLToPath' no son estrictamente necesarios si ya no sirves estáticos desde aquí
-// import path from 'path'; 
-// import { fileURLToPath } from 'url';
+// No necesitas 'path' ni 'fileURLToPath' si solo sirves la API
 
-// Importación de tus módulos de rutas
 import { requireAuth } from './src/middleware/authMiddleware.js';
 import authRoutes from './src/routes/authRoutes.js';
 import profileRoutes from './src/routes/profileRoutes.js';
 import medicoRoutes from './src/routes/medicoRoutes.js';
 import citaRoutes from './src/routes/citaRoutes.js';     
 
-// const __filename = fileURLToPath(import.meta.url); // No necesario si no usas __dirname
-// const __dirname = path.dirname(__filename);       // No necesario si no usas __dirname
-
 const app = express();
-const PORT = process.env.PORT || 3001; // Render inyectará process.env.PORT
+const PORT = process.env.PORT || 3001;
 
-// Configuración de CORS más específica
-// Reemplaza 'https://TU_USUARIO_GITHUB.github.io' con la URL base de tu GitHub Pages
-// o configúralo como una variable de entorno en Render (ej. FRONTEND_URL)
-const frontendGitHubPagesURL = process.env.FRONTEND_URL || 'https://Admirablepotato9.github.io'; 
+// --- Configuración de CORS ---
+// Obtén la URL del frontend de una variable de entorno si está definida,
+// sino, usa un valor por defecto (que DEBES CAMBIAR si es diferente a tu GitHub Pages URL)
+const frontendAppUrl = process.env.FRONTEND_URL || 'https://admirablepotato9.github.io'; 
+
 const allowedOrigins = [
-    'http://localhost:3001',    // Para desarrollo local si el frontend corre en otro puerto que no sea el del backend
-    'http://127.0.0.1:5500',    // Común para Live Server de VSCode
-    frontendGitHubPagesURL      // URL de tu frontend en GitHub Pages
+    frontendAppUrl, // URL de producción de tu frontend
+    'http://localhost:3001',    // Si alguna vez sirves el frontend desde el mismo puerto local que el backend (menos común)
+    'http://127.0.0.1:5500',    // Para Live Server de VSCode si pruebas el frontend localmente
+    // Puedes añadir más orígenes de desarrollo si los necesitas
 ];
 
-console.log("CORS Allowed Origins:", allowedOrigins);
+const corsOptions = {
+  origin: function (origin, callback) {
+    // `origin` será undefined para peticiones del mismo origen o algunas herramientas como Postman
+    // Permitir si no hay origin o si el origin está en la lista blanca
+    if (!origin || allowedOrigins.includes(origin)) {
+      console.log(`CORS: Permitiendo origen: ${origin || 'desconocido (probablemente misma-maquina o herramienta API)'}`);
+      callback(null, true);
+    } else {
+      console.error(`CORS: Origen BLOQUEADO: ${origin}. No está en la lista blanca: ${allowedOrigins.join(', ')}`);
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Asegúrate de incluir OPTIONS
+  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras que tu frontend envía
+  credentials: true, // Si alguna vez manejas cookies o sesiones de autenticación basadas en ellas
+  optionsSuccessStatus: 200 // Algunos navegadores antiguos (IE11) se ahogan con 204
+};
 
-app.use(cors({
-    origin: function (origin, callback) {
-        // Permitir peticiones sin 'origin' (como Postman, apps móviles, o si el navegador no lo envía por alguna razón)
-        // Y permitir si el origin está en nuestra lista blanca
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            console.warn(`CORS: Origin ${origin} no permitido.`);
-            callback(new Error('No permitido por CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Asegúrate de permitir los métodos que usas
-    allowedHeaders: ['Content-Type', 'Authorization']   // Y los headers que necesitas
-}));
+app.use(cors(corsOptions));
 
-app.use(express.json()); // Middleware para parsear JSON bodies
-app.use(express.urlencoded({ extended: true })); // Middleware para parsear URL-encoded bodies
+// Importante: Express maneja las peticiones OPTIONS automáticamente si usas app.use(cors()) ANTES de tus rutas.
+// Si por alguna razón esto no fuera suficiente (muy raro con el paquete `cors`), podrías añadir un manejador explícito:
+// app.options('*', cors(corsOptions)); // Habilita pre-flight para todas las rutas
+
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 // Rutas de la API
 app.get('/api/test', (req, res) => {
@@ -72,23 +75,6 @@ app.get('/api/protected-test', requireAuth, (req, res) => {
     });
 });
 
-// Ya no necesitas servir el frontend/index.html desde aquí si usas GitHub Pages para el frontend.
-// La siguiente ruta que servía el frontend para cualquier ruta no-API puede ser eliminada o comentada:
-/*
-const frontendPath = path.join(__dirname, '../frontend'); // __dirname no está definido si quitaste las importaciones de path
-app.use(express.static(frontendPath));
-
-app.get(/^\/(?!api)./, (req, res) => {
-    res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
-        if (err) {
-            console.error("Error al enviar index.html:", err);
-            res.status(err.status || 500).send("Error al cargar la página principal.");
-        }
-    });
-});
-*/
-
-// Middleware para manejar errores 404 de rutas API no encontradas (opcional pero bueno)
 app.use('/api/*', (req, res) => {
     res.status(404).json({ error: `Ruta API no encontrada: ${req.method} ${req.originalUrl}` });
 });
@@ -97,5 +83,6 @@ app.listen(PORT, () => {
     console.log(`Servidor SIVIC corriendo en el puerto ${PORT}`);
     if (process.env.NODE_ENV !== 'production') {
         console.log(`Acceso local (si aplica): http://localhost:${PORT}`);
+        console.log(`CORS permitirá peticiones desde: ${allowedOrigins.join(', ')}`);
     }
 });
