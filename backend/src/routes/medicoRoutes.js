@@ -2,27 +2,32 @@
 import express from 'express';
 import { listarMedicosAprobados, actualizarDisponibilidadMedico } from '../controllers/medicoController.js';
 import { requireAuth } from '../middleware/authMiddleware.js';
-// import { checkRole } from '../middleware/authMiddleware.js'; // Descomentar si creas checkRole
 
 const router = express.Router();
 
-// Ruta pública para que pacientes vean médicos disponibles
-// GET /api/medicos
-router.get('/', listarMedicosAprobados); // Podría estar protegida si solo usuarios logueados pueden ver
+// Ruta para listar médicos (GET /api/medicos)
+router.get('/', listarMedicosAprobados); 
 
-// Ruta protegida para que un médico actualice su disponibilidad
-// PUT /api/medicos/me/disponibilidad
+// Ruta para que un médico actualice SU PROPIA disponibilidad
 router.put(
-    '/me/disponibilidad', 
+    '/me/disponibilidad', // Esto resulta en PUT /api/medicos/me/disponibilidad
     requireAuth, 
-    // (req, res, next) => { // Middleware para verificar si es médico
-    //     if (req.user.profile.role !== 'Medico') {
-    //         return res.status(403).json({ error: 'Acceso denegado. Solo para médicos.' });
-    //     }
-    //     next();
-    // },
+    (req, res, next) => { // Middleware específico para verificar rol Médico para esta ruta
+        if (!req.user || !req.user.profile || req.user.profile.role !== 'Medico') {
+            return res.status(403).json({ error: 'Acceso denegado. Esta acción es solo para médicos.' });
+        }
+        // Verificar que el perfil del médico tenga la estructura esperada (perfiles_medicos)
+        // Esto es más una salvaguarda, el controlador principal también debería verificar
+        if (!req.user.profile.perfiles_medicos || req.user.profile.perfiles_medicos.length === 0) {
+            // Esto podría pasar si el trigger no creó la entrada en perfiles_medicos
+            // o si la consulta en authMiddleware no la está trayendo correctamente.
+            console.warn('MEDICO_ROUTES: /me/disponibilidad - El perfil del médico no tiene detalles en perfiles_medicos.');
+            // No bloqueamos aquí necesariamente, dejamos que el controlador lo maneje,
+            // pero es una señal de alerta.
+        }
+        next();
+    },
     actualizarDisponibilidadMedico
 );
-// Nota: Idealmente, el middleware checkRole(['Medico']) manejaría la verificación de rol de forma más limpia.
 
 export default router;
