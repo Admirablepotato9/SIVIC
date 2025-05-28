@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const testApiButton = getElem('testApiButton');
     const apiResponseParagraph = getElem('apiResponse');
 
-    const API_BASE_URL = 'http://localhost:3001/api';
+    const API_BASE_URL = 'https://sivic.onrender.com/api';
     let currentUserProfile = null;
     const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
 

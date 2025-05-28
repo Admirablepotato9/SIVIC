@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3001; // Render inyectará process.env.PORT
 // Configuración de CORS más específica
 // Reemplaza 'https://TU_USUARIO_GITHUB.github.io' con la URL base de tu GitHub Pages
 // o configúralo como una variable de entorno en Render (ej. FRONTEND_URL)
-const frontendGitHubPagesURL = process.env.FRONTEND_URL || 'https://TU_USUARIO_GITHUB.github.io'; 
+const frontendGitHubPagesURL = process.env.FRONTEND_URL || 'https://Admirablepotato9.github.io'; 
 const allowedOrigins = [
     'http://localhost:3001',    // Para desarrollo local si el frontend corre en otro puerto que no sea el del backend
     'http://127.0.0.1:5500',    // Común para Live Server de VSCode
