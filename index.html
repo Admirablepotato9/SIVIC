@@ -23,11 +23,9 @@
                 <h2>Bienvenido a SIVIC</h2>
                 <p>Sistema Integral de Vigilancia en Inmunodeficiencias Clínicas.</p>
                 <p id="welcome-user-message" style="font-weight: bold;"></p>
-                <div id="test-api" class="mt-1">
-                    <h3>Probar Conexión con Backend</h3>
-                    <button id="testApiButton">Test API</button>
-                    <p id="apiResponse"></p>
-                </div>
+                
+                <!-- SECCIÓN TEST API ELIMINADA -->
+
                 <div id="dashboard-links" style="display: none;" class="mt-1">
                     <h4>Acciones Rápidas:</h4>
                     <div id="paciente-actions" style="display:none;">
@@ -161,7 +159,6 @@
                  <button id="back-to-welcome-from-miscitas-btn" class="button-link mt-1">Volver</button>
             </section>
 
-            <!-- SECCIÓN DE DISPONIBILIDAD MODIFICADA -->
             <section id="disponibilidad-medico-section" style="display: none;">
                 <h2>Gestionar Mi Disponibilidad</h2>
                 <form id="disponibilidad-medico-form" autocomplete="off">
@@ -172,50 +169,42 @@
                     
                     <h4>Horarios Semanales:</h4>
                     <div id="horarios-semanales-container">
-                        <!-- Lunes -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-lunes" name="dia_lunes" value="lunes">
                             <label for="check-lunes" class="dia-label">Lunes:</label>
                             <div class="rangos-horarios" id="rangos-lunes" style="display:none;">
-                                <!-- Los inputs de tiempo se añadirán aquí con JS -->
                             </div>
                         </div>
-                        <!-- Martes -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-martes" name="dia_martes" value="martes">
                             <label for="check-martes" class="dia-label">Martes:</label>
                             <div class="rangos-horarios" id="rangos-martes" style="display:none;">
                             </div>
                         </div>
-                        <!-- Miércoles -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-miercoles" name="dia_miercoles" value="miercoles">
                             <label for="check-miercoles" class="dia-label">Miércoles:</label>
                             <div class="rangos-horarios" id="rangos-miercoles" style="display:none;">
                             </div>
                         </div>
-                        <!-- Jueves -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-jueves" name="dia_jueves" value="jueves">
                             <label for="check-jueves" class="dia-label">Jueves:</label>
                             <div class="rangos-horarios" id="rangos-jueves" style="display:none;">
                             </div>
                         </div>
-                        <!-- Viernes -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-viernes" name="dia_viernes" value="viernes">
                             <label for="check-viernes" class="dia-label">Viernes:</label>
                             <div class="rangos-horarios" id="rangos-viernes" style="display:none;">
                             </div>
                         </div>
-                        <!-- Sábado -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-sabado" name="dia_sabado" value="sabado">
                             <label for="check-sabado" class="dia-label">Sábado:</label>
                             <div class="rangos-horarios" id="rangos-sabado" style="display:none;">
                             </div>
                         </div>
-                        <!-- Domingo -->
                         <div class="dia-disponibilidad-container">
                             <input type="checkbox" id="check-domingo" name="dia_domingo" value="domingo">
                             <label for="check-domingo" class="dia-label">Domingo:</label>
@@ -227,8 +216,6 @@
                 </form>
                  <button id="back-to-welcome-from-dispo-btn" class="button-link mt-1">Volver</button>
             </section>
-            <!-- FIN DE SECCIÓN DE DISPONIBILIDAD MODIFICADA -->
-
 
             <section id="mi-agenda-medico-section" style="display: none;">
                 <h2>Mi Agenda</h2>

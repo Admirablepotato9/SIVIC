@@ -53,10 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const limiteCitasDiariasInput = getElem('limite-citas-diarias');
     const horariosSemanalesContainer = getElem('horarios-semanales-container');
 
-    const testApiButton = getElem('testApiButton');
-    const apiResponseParagraph = getElem('apiResponse');
+    // CONSTANTES PARA TEST API ELIMINADAS
+    // const testApiButton = getElem('testApiButton');
+    // const apiResponseParagraph = getElem('apiResponse');
 
-    const API_BASE_URL = 'http://localhost:3001/api';
+    const API_BASE_URL = 'https://sivic.onrender.com/api'; // ¡ASEGÚRATE QUE ESTA SEA TU URL DE RENDER CORRECTA!
     let currentUserProfile = null;
     const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
 
@@ -252,15 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (registerRoleSelect.value !== 'Medico') cedulaContainer.style.display = 'none';
     }
     
-    if (testApiButton) {
-        testApiButton.addEventListener('click', async () => {
-            apiResponseParagraph.textContent = 'Cargando...'; apiResponseParagraph.className = ''; 
-            try {
-                const data = await fetchAPI('/test', {method: 'GET'});
-                apiResponseParagraph.textContent = `Respuesta del Backend: ${data}`; apiResponseParagraph.classList.add('success');
-            } catch (error) { apiResponseParagraph.textContent = `Error: ${error.message}.`; apiResponseParagraph.classList.add('error'); }
-        });
-    }
+    // LISTENER PARA TEST API ELIMINADO
+    // if (testApiButton) { /* ... */ }
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -878,9 +872,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         labelNotas.style.display = mostrar ? 'block' : 'none';
                     }
                 });
-                if (select.value === 'Completada') { // Simular change si el estado inicial es Completada para mostrar el textarea
+                if (select.value === 'Completada') { 
                     select.dispatchEvent(new Event('change'));
-                } else { // Asegurarse que el textarea de notas esté oculto si no es 'Completada'
+                } else { 
                     const citaId = select.dataset.citaId;
                     const inputNotas = getElem(`input-notas-${citaId}`);
                     const labelNotas = select.closest('.cita-acciones').querySelector(`.label-notas-diagnostico`);
